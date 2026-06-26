@@ -1,0 +1,22 @@
+# Application profile: robotic arm joint (position mode tuning)
+
+position_loop:
+  rate_hz: 500
+  pid: { kp: 0.05, ki: 0.001, kd: 0.0 }
+  output_rpm_max: 20.0
+  profile_accel_rpm_s: 300
+  profile_decel_rpm_s: 300
+  position_tolerance_counts: 500
+  backlash_comp_counts: 50
+
+speed_loop:
+  rate_hz: 1000
+  pid: { kp: 0.02, ki: 0.5, kd: 0.0 }
+  output_iq_max_a: 1.0
+
+joint_axis:
+  max_torque_pct: 800
+
+can:
+  node_id: 7
+  motor_status_hz: 100

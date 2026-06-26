@@ -1,0 +1,37 @@
+# Motor + gearbox + encoder — REFERENCE EXAMPLE (default MOTOR_PROFILE)
+#
+# Huayi GB4212-18V brushless motor on HY_GB4212 DRV A4 board
+#   - 8 poles / 12 slots  →  4 pole pairs
+#   - 18 V, 1.3 A rated, 1.5 A max
+#   - Planetary gearbox 100.6 : 1  (motor revs per output rev)
+#   - KTH7816 magnetic encoder, 65536 counts/rev (SSI)
+#   - Output shaft: 46 RPM rated, 53 RPM max
+#
+# Board profile: boards/hy_gb4212_drv_a4/
+# Full write-up: docs/REFERENCE_EXAMPLE.md
+
+motor:
+  rated_voltage_v: 18.0
+  pole_pairs: 4
+  phase_resistance_ohm: 3.24
+  phase_inductance_mh: 0.87
+  rated_current_a: 1.3
+  max_current_a: 1.5
+
+gearbox:
+  ratio: 100.6
+
+encoder:
+  type: kth7816
+  counts_per_rev: 65536
+  ssi_clock_hz: 1000000
+  electrical_offset_counts: 0
+
+speed_loop:
+  integrator_limit_a: 1.3
+  output_iq_max_a: 1.3
+  output_rpm_max: 53.0
+  output_rpm_rated: 46.0
+
+protection:
+  overcurrent_a: 1.5

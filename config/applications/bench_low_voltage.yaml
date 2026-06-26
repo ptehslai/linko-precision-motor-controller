@@ -1,0 +1,23 @@
+# Application profile: bench supply — derated voltage/current
+
+motor:
+  rated_voltage_v: 12.0
+  max_current_a: 0.8
+
+protection:
+  undervoltage_v: 10.0
+  overvoltage_v: 15.0
+  overcurrent_a: 1.0
+
+foc:
+  current_q:
+    output_limit_v: 9.0
+  current_d:
+    output_limit_v: 9.0
+
+speed_loop:
+  output_iq_max_a: 0.8
+  output_rpm_max: 30.0
+
+joint_axis:
+  max_torque_pct: 500

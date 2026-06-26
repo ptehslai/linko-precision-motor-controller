@@ -1,0 +1,27 @@
+# REFERENCE EXAMPLE board profile — HY_GB4212 DRV A4 (Huayi)
+# Paired motor: config/motors/gb4212_18v.yaml (GB4212-18V, 100.6:1 gearbox)
+# See docs/REFERENCE_EXAMPLE.md
+
+meta:
+  board_id: com.huayi.gb4212
+  board_name: HY_GB4212 DRV A4
+  firmware_banner: HY_GB4212
+
+mcu:
+  family: lks32mc454
+  pyocd_target: lks32mc454
+  hse_mhz: 12
+  sysclk_mhz: 192
+
+memory:
+  nvs_flash_addr: 0x0803F800
+
+hardware:
+  shunt_resistance_ohm: 0.007
+  shunt_amp_gain: 10.0
+  vbus_divider_ratio: 11.0
+  adc_ref_v: 3.3
+
+protection:
+  undervoltage_v: 15.0
+  overvoltage_v: 22.0

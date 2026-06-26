@@ -1,0 +1,89 @@
+# Platform defaults — motor- and board-independent control stack tuning
+
+foc:
+  pwm_frequency_hz: 20000
+  control_loop_hz: 10000
+  max_modulation: 0.95
+  current_d:
+    pid: { kp: 0.0, ki: 0.0, kd: 0.0 }
+    output_limit_v: 13.0
+    integrator_limit_v: 5.0
+  current_q:
+    pid: { kp: 0.0, ki: 0.0, kd: 0.0 }
+    output_limit_v: 13.0
+    integrator_limit_v: 5.0
+  current_auto_tune:
+    bandwidth_hz: 500.0
+    damping: 0.707
+
+speed_loop:
+  rate_hz: 1000
+  pid:
+    kp: 0.0
+    ki: 0.0
+    kd: 0.0
+  derivative_filter_hz: 30.0
+  feedforward_iq_a_per_rpm: 0.0
+  integrator_limit_a: 1.3
+  output_iq_max_a: 1.3
+  output_rpm_max: 100.0
+  output_rpm_rated: 80.0
+  speed_filter_hz: 20.0
+
+position_loop:
+  rate_hz: 500
+  pid:
+    kp: 0.0
+    ki: 0.0
+    kd: 0.0
+  integrator_limit_rpm: 20.0
+  output_rpm_max: 30.0
+  profile_accel_rpm_s: 500
+  profile_decel_rpm_s: 500
+  contour_speed_rpm: 30.0
+  position_tolerance_counts: 500
+  backlash_comp_counts: 0
+
+pid_common:
+  anti_windup: back_calculation
+  on_gain_change: reset_integrators
+
+protection:
+  overcurrent_a: 1.5
+  overcurrent_ms: 100
+  driver_temp_advisory_c: 85
+  driver_temp_fault_c: 100
+  stall_current_pct: 80
+  stall_speed_rpm: 1.0
+  stall_timeout_ms: 500
+
+can:
+  node_id: 7
+  bitrate_kbps: 1000
+  heartbeat_hz: 1
+  motor_status_hz: 100
+  feedback_period_ms:
+    pkt96: 100
+    pkt97: 100
+    pkt98: 0
+
+joint_axis:
+  zero_offset_counts: 0
+  min_position_counts: null
+  max_position_counts: null
+  max_torque_pct: 1000
+
+sensorless:
+  enabled: false
+  fallback_on_enc_fault: true
+  hfi:
+    voltage_start_v: 2.0
+    voltage_run_v: 0.5
+    carrier_hz: 800
+    samples_per_rev: 16
+    max_elec_rpm: 300
+  smo:
+    min_elec_rpm: 200
+    pll_kp: 0.0
+    pll_ki: 0.0
+  blend_hysteresis_erpm: 50
