@@ -15,7 +15,7 @@ build-*/
 third_party/lks32mc45x_sdk/LKS32MC45x_PeripDemo/
 compile_commands.json
 include/config_generated.h
-src/config/config_defaults.c
+firmware/common/config_defaults.c
 .vscode/
 .idea/
 *.swp

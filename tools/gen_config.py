@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate include/config_generated.h and src/config/config_defaults.c from merged YAML profiles."""
+"""Generate include/config_generated.h and firmware/common/config_defaults.c from merged YAML profiles."""
 
 from __future__ import annotations
 
@@ -171,7 +171,7 @@ def main() -> int:
     ap.add_argument("--motor", default="config/motors/gb4212_18v.yaml")
     ap.add_argument("--application", default="", help="Optional application overlay YAML")
     ap.add_argument("--header", default="include/config_generated.h")
-    ap.add_argument("--source", default="src/config/config_defaults.c")
+    ap.add_argument("--source", default="firmware/common/config_defaults.c")
     args = ap.parse_args()
 
     root = Path(__file__).resolve().parents[1]
@@ -190,7 +190,18 @@ def main() -> int:
             return 1
         data = deep_merge(data, load_yaml(p))
 
-    for required in ("motor", "gearbox", "encoder", "foc", "speed_loop", "position_loop", "can"):
+    for required in (
+        "motor",
+        "gearbox",
+        "encoder",
+        "foc",
+        "speed_loop",
+        "position_loop",
+        "can",
+        "ota",
+        "startup_protection",
+        "probe",
+    ):
         if required not in data:
             print(f"Merged config missing required section: {required}", file=sys.stderr)
             return 1

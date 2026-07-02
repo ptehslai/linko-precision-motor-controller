@@ -70,7 +70,7 @@ Example: 1° at the output ≈ 100.6 motor revolutions internally; speed loop `o
 
 | Item | Value |
 |------|-------|
-| Interface | SSI, bit-banged in `src/drivers/encoder_kth7816.c` |
+| Interface | SSI, bit-banged in `firmware/drivers/encoder_kth7816.c` |
 | Resolution | 65536 counts/rev (16-bit) |
 | SSI clock | 1 MHz (configurable in motor profile) |
 
@@ -93,7 +93,7 @@ From merged board + motor profiles:
 
 ## Adding a *different* board or motor
 
-Copy the reference directories and edit YAML — the generic firmware in `src/` stays unchanged:
+Copy the reference directories and edit YAML — the generic firmware in `firmware/` stays unchanged:
 
 1. `boards/hy_gb4212_drv_a4/` → `boards/my_board/`
 2. `config/motors/gb4212_18v.yaml` → `config/motors/my_motor.yaml`

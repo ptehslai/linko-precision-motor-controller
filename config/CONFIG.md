@@ -43,4 +43,4 @@ Tune `protection.*` in YAML. Undervoltage 15 V, overvoltage 22 V, OC 1.5 A / 100
 
 ## NVS persistence
 
-`COMMAND_STORE_PERSISTENT` (#88) saves node ID, zero offset, and PID via `src/config/nvs.c`.
+`COMMAND_STORE_PERSISTENT` (#88) saves node ID, zero offset, and PID via `firmware/sys/storage_store.c`.

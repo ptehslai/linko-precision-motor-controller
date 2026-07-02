@@ -39,8 +39,8 @@ Optional arm-joint tuning: `-DAPP_PROFILE=arm_joint`. Full specs: [docs/REFERENC
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  Generic firmware (src/)                                      │
-│  motor/ control/ comm/ drivers/ app/ board HAL API            │
+│  Runtime root (firmware/)                                      │
+│  common/ sys/ drivers/ bsp/ app/linko_precision_motor/         │
 ├──────────────────────────────────────────────────────────────┤
 │  Profiles (selected at cmake configure time)                  │
 │  boards/<name>/     pins, linker, startup, board.yaml         │
@@ -52,10 +52,11 @@ Optional arm-joint tuning: `-DAPP_PROFILE=arm_joint`. Full specs: [docs/REFERENC
 
 | Layer | Location | Status |
 |-------|----------|--------|
-| FOC, Cyphal, loops | `src/` | Implemented |
-| Board HAL | `src/board/` + `boards/<BOARD>/include/` | Wired for `hy_gb4212_drv_a4` |
-| Profiles | `boards/`, `config/` | GB4212 reference profiles included |
-| Hardware validation | — | Not yet done on target |
+| Runtime entry | `firmware/entry.c` | startup protection + probe + OTA handoff |
+| Core system | `firmware/sys/` | startup protection/probe/OTA scaffolds integrated |
+| Drivers/BSP | `firmware/drivers/`, `firmware/bsp/` | LKS wrappers wired |
+| App product | `firmware/app/linko_precision_motor/` | control + comm stack wired |
+| Profiles | `boards/`, `config/` | HY_GB4212 + GB4212 defaults preserved |
 
 ## Prerequisites
 
@@ -107,7 +108,7 @@ cmake --build build --target generate_config
 cmake --build build
 ```
 
-Outputs: `build/firmware`, `build/firmware.hex` (`firmware_hex` target).
+Outputs: `build/firmware`, `build/firmware.hex` (`firmware_hex` target), optional `dist/` factory artifacts through `factory_image`.
 
 Stub HAL (no SDK):
 
@@ -148,8 +149,9 @@ See [docs/REFERENCE_EXAMPLE.md](docs/REFERENCE_EXAMPLE.md), `boards/README.md`, 
 | `config/platform.yaml` | Generic control defaults |
 | `config/motors/` | Motor + gearbox + encoder profiles |
 | `config/applications/` | Application tuning overlays |
-| `src/board/` | Portable HAL implementation |
-| `src/control/joint_axis.c` | Output-side joint (gearbox-scaled) loops |
+| `firmware/` | Standard runtime root and layered firmware tree |
+| `firmware/app/linko_precision_motor/` | Product application layer |
+| `firmware/sys/` | startup protection, hardware probing, OTA state |
 | `cmake/LksSdk.cmake` | DevDriver linking (PeripDemo-style `source/` API) |
 | `third_party/` | libcanard, o1heap, LKS SDK |
 
@@ -162,7 +164,7 @@ See [docs/REFERENCE_EXAMPLE.md](docs/REFERENCE_EXAMPLE.md), `boards/README.md`, 
 | Term | Meaning |
 |------|---------|
 | **MCU** | Microcontroller — Linko LKS32MC454 on reference boards |
-| **HAL** | Hardware abstraction in `src/board/lks_hal.c` |
+| **HAL** | Hardware abstraction in `firmware/drivers/hal_lks.c` |
 | **DevDriver** | Linko vendor peripheral library |
 | **Board profile** | `boards/<name>/` — pins, linker, analog front-end metadata |
 | **Motor profile** | `config/motors/<name>.yaml` — R/L, pole pairs, gearbox, encoder |

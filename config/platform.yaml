@@ -87,3 +87,26 @@ sensorless:
     pll_kp: 0.0
     pll_ki: 0.0
   blend_hysteresis_erpm: 50
+
+ota:
+  strategy: dual_slot_bootloader
+  confirm_timeout_ms: 5000
+  rollback_on_probe_fail: true
+  verify:
+    hash: crc32
+    signature: none
+
+startup_protection:
+  safe_output_default: true
+  can_quiet_mode: true
+  watchdog_enable: false
+  brownout_guard_v: 14.0
+
+probe:
+  retries: 2
+  timeout_ms: 20
+  policy:
+    encoder: required
+    adc: required
+    gate_driver: optional
+    can: optional

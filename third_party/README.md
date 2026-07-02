@@ -1,6 +1,6 @@
 # Third-party dependencies
 
-Only **upstream libraries linked into the firmware** live here. Project-owned code (motion profiler, CRC helpers, board HAL) is under `src/`.
+Only **upstream libraries linked into the firmware** live here. Project-owned code (motion profiler, CRC helpers, board HAL) is under `firmware/`.
 
 ## Vendored (used by the build)
 
@@ -19,7 +19,7 @@ Only **upstream libraries linked into the firmware** live here. Project-owned co
 
 `LKS32MC45x_PeripDemo` (~350 MB) is **not** kept in the tree; fetch with `-IncludePeripDemo` for reference only.
 
-CMake links **only** `DevDriver/source/*.c` and `lks32mc45x_trim.s` (not the HAL umbrella or vendor startup). Board bring-up lives in `src/board/`.
+CMake links **only** `DevDriver/source/*.c` and `lks32mc45x_trim.s` (not the HAL umbrella or vendor startup). Board bring-up lives in `firmware/bsp/`.
 
 ## Update vendored libs
 
