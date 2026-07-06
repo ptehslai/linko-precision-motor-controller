@@ -119,14 +119,30 @@ cmake -B build -DLKS_SDK_LINK=OFF ...
 Host compile test:
 
 ```bash
-cmake -B build-host -DBUILD_HOST_TEST=ON
+cmake -B build-host -DBUILD_HOST_TEST=ON -DLKS_SDK_LINK=OFF
 cmake --build build-host
+ctest --test-dir build-host --output-on-failure
 ```
 
-Flash:
+Windows:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/ci/run_unit_tests.ps1
+```
+
+Flash factory image (bootloader + app slot A at `0x08000000`):
 
 ```bash
+cmake --build build --target bootloader_bin firmware_bin factory_image
+cmake --build build --target flash_factory
+# or simply:
 cmake --build build --target flash
+```
+
+Development flash (application slot only, requires bootloader already programmed):
+
+```bash
+cmake --build build --target flash_app
 ```
 
 ## Adding a new target
@@ -150,7 +166,11 @@ See [docs/REFERENCE_EXAMPLE.md](docs/REFERENCE_EXAMPLE.md), `boards/README.md`, 
 | `config/motors/` | Motor + gearbox + encoder profiles |
 | `config/applications/` | Application tuning overlays |
 | `firmware/` | Standard runtime root and layered firmware tree |
-| `firmware/app/linko_precision_motor/` | Product application layer |
+| `firmware/app/linko_precision_motor/runtime/` | Main loop, FSM, fault handling |
+| `firmware/app/linko_precision_motor/control/` | PID and joint-axis loops |
+| `firmware/app/linko_precision_motor/motor/` | FOC, SVPWM, angle source |
+| `firmware/app/linko_precision_motor/comm/` | Cyphal CAN and status |
+| `bootloader/` | Dual-slot OTA bootloader |
 | `firmware/sys/` | startup protection, hardware probing, OTA state |
 | `cmake/LksSdk.cmake` | DevDriver linking (PeripDemo-style `source/` API) |
 | `third_party/` | libcanard, o1heap, LKS SDK |

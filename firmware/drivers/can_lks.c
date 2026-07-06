@@ -1,5 +1,6 @@
 ﻿#include "can_lks.h"
 #include "lks_hal.h"
+#include "startup_protection.h"
 
 void can_lks_init(can_lks_t *can, uint32_t bitrate_kbps)
 {
@@ -7,9 +8,10 @@ void can_lks_init(can_lks_t *can, uint32_t bitrate_kbps)
         return;
     }
     can->bitrate_kbps = bitrate_kbps;
-    hal_can_init(bitrate_kbps);
+    if (startup_protection_can_allowed()) {
+        hal_can_init(bitrate_kbps);
+    }
 }
-
 bool can_lks_send(can_lks_t *can, uint32_t id, const uint8_t *data, uint8_t len)
 {
     (void)can;

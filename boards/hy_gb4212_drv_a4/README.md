@@ -24,7 +24,8 @@
 | `board.yaml` | Board ID, hardware constants, 18 V protection thresholds |
 | `include/board_pins.h` | Logical pin / ADC channel IDs |
 | `include/lks_pinmap.h` | MCU port/pin mux (verify vs schematic) |
-| `linker/LKS32MC454NCQ8.ld` | Memory map |
+| `linker/app_slot.ld` | App image base `0x08008000` (slot A) |
+| `linker/LKS32MC454NCQ8.ld` | Full-flash reference linker (legacy) |
 | `startup/startup_lks32mc454.S` | IRQ vector table |
 
 ## Paired motor profile

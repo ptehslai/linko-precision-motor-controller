@@ -20,6 +20,8 @@
 #include "config_generated.h"
 #include "board_pins.h"
 #include "smo.h"
+#include "ota_manager.h"
+#include "startup_protection.h"
 
 static runtime_config_t g_cfg;
 static can_lks_t g_can;
@@ -35,7 +37,6 @@ static uint8_t g_canard_mem[4096];
 
 int app_run_main(void)
 {
-    board_init();
     hal_uart_init(115200U);
     hal_uart_write(CFG_META_FIRMWARE_BANNER " " FW_VERSION_STRING " " CFG_META_BOARD_ID "\r\n");
 
@@ -45,6 +46,7 @@ int app_run_main(void)
     motor_fsm_init();
     commissioning_init();
 
+    startup_protection_release_can();
     can_lks_init(&g_can, g_cfg.base.can_bitrate_kbps);
     cyphal_can_init(&g_cyphal, &g_can, &g_cfg, g_canard_mem, sizeof(g_canard_mem));
 
@@ -136,6 +138,7 @@ int app_run_main(void)
         motor_fsm_update(dt);
         commissioning_step(dt);
         cyphal_can_update(&g_cyphal, now);
+        ota_manager_runtime_tick(!fault_is_active(), now);
     }
 
     return 0;

@@ -15,6 +15,11 @@ mcu:
 
 memory:
   nvs_flash_addr: 0x0803F800
+  ota_meta_addr: 0x0803F000
+  bootloader_size: 0x8000
+  app_slot_a_addr: 0x08008000
+  app_slot_b_addr: 0x08023800
+  app_slot_size: 0x1B800
 
 hardware:
   shunt_resistance_ohm: 0.007
