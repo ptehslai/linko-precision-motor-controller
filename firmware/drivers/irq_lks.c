@@ -5,6 +5,7 @@
 #ifdef LKS_SDK_LINK
 
 #include <stdbool.h>
+#include <stddef.h>
 
 #include "lks32mc45x_lib.h"
 
@@ -64,7 +65,7 @@ void CAN_IRQHandler(void)
         u8 rtr = 0U;
         u8 fdf = 0U;
         u8 len = 0U;
-        if (CAN_Recv_Msg((u32 *)&id, &ide, &rtr, &fdf, s_can_rx_buf, &len) == CanRecv_Ok) {
+        if (CAN_Recv_Msg((u32 *)&id, &ide, &rtr, &fdf, s_can_rx_buf, &len) == CanRecv_Succ) {
             s_can_rx_id      = id;
             s_can_rx_len     = len;
             s_can_rx_pending = true;

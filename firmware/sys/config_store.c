@@ -1,6 +1,8 @@
-﻿#include "config.h"
+﻿#include "fw_cfg.h"
+#include "nvs.h"
 #include "lks_hal.h"
 
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 

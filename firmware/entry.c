@@ -10,6 +10,10 @@ int app_run_main(void);
 int main(void)
 {
     board_init();
+    /* Restore global interrupt enable (PRIMASK cleared) — bootloader disables
+     * interrupts before switching vector tables, and they must be re-enabled
+     * here for SysTick (time base), ADC, CAN, and all other peripherals. */
+    __asm volatile("cpsie i");
     startup_protection_init();
     if (!startup_protection_run()) {
         sys_fault_halt("startup_protection");

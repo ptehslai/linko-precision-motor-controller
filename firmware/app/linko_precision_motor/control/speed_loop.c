@@ -1,5 +1,6 @@
 ﻿#include "speed_loop.h"
 
+#include <stddef.h>
 #include <math.h>
 
 void speed_loop_init(speed_loop_t *sl, float kp, float ki, float kd, float iq_max, float filter_hz, float rate_hz)

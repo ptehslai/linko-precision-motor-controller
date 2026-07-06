@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include "canard.h"
 #include "can_lks.h"
-#include "config.h"
+#include "fw_cfg.h"
 
 #ifdef __cplusplus
 extern "C" {

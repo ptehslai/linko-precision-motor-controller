@@ -1,6 +1,7 @@
 ﻿#include "can_lks.h"
 #include "lks_hal.h"
 #include "startup_protection.h"
+#include <stddef.h>
 
 void can_lks_init(can_lks_t *can, uint32_t bitrate_kbps)
 {

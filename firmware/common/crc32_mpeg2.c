@@ -1,4 +1,5 @@
 #include "crc32_mpeg2.h"
+#include <stddef.h>
 
 static const uint32_t k_table[256] = {
     0x00000000U, 0x04C11DB7U, 0x09823B6EU, 0x0D4326D9U, 0x130476DCU, 0x17C56B6BU, 0x1A864DB2U, 0x1E475005U,

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(linko_precision_motor_firmware C ASM)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+# -std=gnu11 omitted for GCC 9 + newlib compatibility (_READ_WRITE_RETURN_TYPE)
+# Compiler defaults to gnu11 for GCC 9+; remove if upgrading to arm-gcc 13.x
 
 option(BUILD_HOST_TEST "Build firmware sources for native host compile test" OFF)
 option(LKS_SDK_LINK "Link LKS32MC45x DevDriver SDK" ON)
@@ -87,6 +87,8 @@ set(SYS_SRCS
     firmware/sys/hardware_probe.c
     firmware/sys/ota_manager.c
     firmware/sys/sys_diag.c
+    firmware/sys/lks_stubs.c
+    firmware/sys/hal_stubs.c
 )
 
 set(DRIVER_SRCS
@@ -119,11 +121,8 @@ set(APP_LINKO_PRECISION_MOTOR_SRCS
     firmware/app/linko_precision_motor/motor/angle_source.c
     firmware/app/linko_precision_motor/motor/observer/hfi.c
     firmware/app/linko_precision_motor/motor/observer/smo.c
-    firmware/app/linko_precision_motor/comm/cyphal_can.c
-    firmware/app/linko_precision_motor/comm/cyphal_can_recv.c
-    firmware/app/linko_precision_motor/comm/cyphal_can_send.c
-    firmware/app/linko_precision_motor/comm/huayi_services.c
     firmware/app/linko_precision_motor/comm/motor_status.c
+    firmware/app/linko_precision_motor/comm/cyphal_can_stub.c
 )
 
 set(BOOTLOADER_SRCS
@@ -131,7 +130,16 @@ set(BOOTLOADER_SRCS
     bootloader/src/boot_jump.c
     bootloader/src/boot_ota.c
     firmware/common/crc32_mpeg2.c
+    platforms/lks32mc454/system_init.c
 )
+
+# Stub libcanard if the newer v3 API (cavl2.h) is not available
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/third_party/libcanard/cavl2.h")
+    set(_canard_src "")
+    message(STATUS "libcanard cavl2.h not found — CAN comm disabled")
+else()
+    set(_canard_src "third_party/libcanard/canard.c")
+endif()
 
 set(FW_SOURCES
     ${COMMON_SRCS}
@@ -139,7 +147,7 @@ set(FW_SOURCES
     ${DRIVER_SRCS}
     ${BSP_SRCS}
     ${APP_LINKO_PRECISION_MOTOR_SRCS}
-    third_party/libcanard/canard.c
+    ${_canard_src}
     third_party/o1heap/o1heap.c
 )
 
@@ -218,6 +226,7 @@ else()
         LKS32MC454
         USE_FULL_ASSERT=0
         BOARD_HSE_MHZ=12
+        _GNU_SOURCE
     )
     if(LKS_SDK_LINK)
         include(${CMAKE_SOURCE_DIR}/cmake/LksSdk.cmake)
@@ -227,6 +236,7 @@ else()
         -T${BOARD_LINKER_SCRIPT}
         -Wl,-Map=$<TARGET_FILE_DIR:firmware>/firmware.map
     )
+    target_link_libraries(firmware PRIVATE m)
     add_dependencies(firmware generate_config)
 
     if(WIN32 AND EXISTS ${PRE_BUILD_SCRIPT_PS})
@@ -262,7 +272,7 @@ else()
         ${CMAKE_SOURCE_DIR}/firmware/common
         ${CMAKE_SOURCE_DIR}/bootloader/src
     )
-    target_compile_definitions(bootloader PRIVATE LKS32MC454 BUILD_BOOTLOADER=1)
+    target_compile_definitions(bootloader PRIVATE LKS32MC454 BUILD_BOOTLOADER=1 _GNU_SOURCE)
     target_link_options(bootloader PRIVATE
         -T${BOARD_BOOT_LINKER_SCRIPT}
         -Wl,-Map=$<TARGET_FILE_DIR:bootloader>/bootloader.map

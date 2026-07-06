@@ -2,7 +2,7 @@
 #include "cyphal_can_send.h"
 #include "cyphal_can_msg_list.h"
 #include "motor_fsm.h"
-#include "config.h"
+#include "fw_cfg.h"
 #include "commissioning.h"
 #include "fault.h"
 #include "board.h"

@@ -1,5 +1,6 @@
 ﻿#include "joint_axis.h"
 #include "config_generated.h"
+#include <stddef.h>
 
 void joint_axis_init(joint_axis_t *axis, const runtime_config_t *cfg)
 {

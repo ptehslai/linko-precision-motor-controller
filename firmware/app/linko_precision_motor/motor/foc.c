@@ -1,5 +1,6 @@
 ﻿#include "foc.h"
 
+#include <stddef.h>
 #include <math.h>
 
 static const float k_sqrt3_2 = 0.8660254f;

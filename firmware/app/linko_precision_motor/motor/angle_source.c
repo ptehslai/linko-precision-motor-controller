@@ -3,6 +3,7 @@
 #include "smo.h"
 #include "config_generated.h"
 
+#include <stddef.h>
 #include <math.h>
 
 #ifndef M_PI

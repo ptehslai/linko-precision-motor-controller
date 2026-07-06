@@ -1,4 +1,5 @@
 ﻿#include "adc_current.h"
+#include <stddef.h>
 
 void adc_current_init(adc_current_t *adc, float shunt_ohm, float amp_gain)
 {

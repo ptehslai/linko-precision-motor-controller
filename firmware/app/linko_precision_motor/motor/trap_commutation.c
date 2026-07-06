@@ -1,6 +1,7 @@
 ﻿#include "trap_commutation.h"
 #include "lks_hal.h"
 
+#include <stddef.h>
 #include <math.h>
 
 void trap_commutation_init(trap_state_t *st)

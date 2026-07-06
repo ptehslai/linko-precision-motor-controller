@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "config.h"
+#include "fw_cfg.h"
 #include "speed_loop.h"
 #include "position_loop.h"
 
@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-typedef struct {
+typedef struct joint_axis_t {
     speed_loop_t speed;
     position_loop_t position;
     int32_t zero_offset_counts;

@@ -1,2 +1,2 @@
 ﻿#pragma once
-#include "config.h"
+#include "fw_cfg.h"

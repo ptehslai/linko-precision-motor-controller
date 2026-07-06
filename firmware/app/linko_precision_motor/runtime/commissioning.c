@@ -1,8 +1,9 @@
 ﻿#include "commissioning.h"
-#include "config.h"
+#include "fw_cfg.h"
 #include "joint_axis.h"
 #include "motor_fsm.h"
 #include "config_generated.h"
+#include <stddef.h>
 
 static comm_step_t s_step = COMM_STEP_IDLE;
 static float s_timer;

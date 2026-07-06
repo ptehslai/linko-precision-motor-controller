@@ -1,6 +1,6 @@
 ﻿#include "board.h"
 #include "version.h"
-#include "config.h"
+#include "fw_cfg.h"
 #include "can_lks.h"
 #include "cyphal_can.h"
 #include "encoder_kth7816.h"

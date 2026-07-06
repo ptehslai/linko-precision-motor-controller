@@ -11,15 +11,19 @@ function(target_link_lks_sdk target)
         message(FATAL_ERROR "Missing ${_device_inc}/lks32mc45x.h — run tools/fetch_third_party.ps1 -IncludeLksSdk")
     endif()
 
-    # CMSIS core_cm4.h from the ARM GCC toolchain
+    # CMSIS core_cm4.h — try toolchain bundled path, then fall back to project local copy
+    set(_cmsis_local "${CMAKE_SOURCE_DIR}/third_party/cmsis")
     execute_process(
         COMMAND ${CMAKE_C_COMPILER} -print-file-name=include/cmsis/core_cm4.h
         OUTPUT_VARIABLE _core_cm4
         OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
     )
     if(_core_cm4 AND EXISTS "${_core_cm4}")
         get_filename_component(_cmsis_inc "${_core_cm4}" DIRECTORY)
         get_filename_component(_cmsis_inc "${_cmsis_inc}" DIRECTORY)
+    elseif(EXISTS "${_cmsis_local}/core_cm4.h")
+        set(_cmsis_inc "${_cmsis_local}")
     else()
         set(_cmsis_inc "")
     endif()
@@ -33,8 +37,7 @@ function(target_link_lks_sdk target)
     endif()
 
     file(GLOB _lks_c_srcs ${LKS_SDK_PATH}/source/*.c)
-    set(_lks_asm_srcs ${LKS_SDK_PATH}/source/lks32mc45x_trim.s)
-
-    target_sources(${target} PRIVATE ${_lks_c_srcs} ${_lks_asm_srcs})
+    # lks32mc45x_trim.s is ARM Compiler 5 syntax (armcc), not GCC-compatible — skip.
+    target_sources(${target} PRIVATE ${_lks_c_srcs})
     target_compile_definitions(${target} PRIVATE LKS_SDK_LINK=1)
 endfunction()

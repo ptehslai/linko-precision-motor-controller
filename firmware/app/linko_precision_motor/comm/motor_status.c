@@ -1,4 +1,5 @@
 ﻿#include "motor_status.h"
+#include <stddef.h>
 
 static float s_v;
 static float s_i;

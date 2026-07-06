@@ -1,5 +1,6 @@
 #include "sys_diag.h"
 
+#include <stddef.h>
 #include "lks_hal.h"
 
 void sys_fault_halt(const char *reason)

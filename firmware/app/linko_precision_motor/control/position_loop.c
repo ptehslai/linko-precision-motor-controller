@@ -1,4 +1,5 @@
 ﻿#include "position_loop.h"
+#include <stddef.h>
 
 void position_loop_init(position_loop_t *pl, float kp, float ki, float kd,
                         float rpm_max, float accel, float decel)

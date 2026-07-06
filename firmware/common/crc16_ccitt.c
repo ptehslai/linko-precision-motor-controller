@@ -1,4 +1,5 @@
 #include "crc16_ccitt.h"
+#include <stddef.h>
 
 static uint16_t crc16_ccitt_byte(uint16_t crc, uint8_t data)
 {

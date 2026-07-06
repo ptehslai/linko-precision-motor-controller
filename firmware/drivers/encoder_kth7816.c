@@ -2,6 +2,7 @@
 #include "board_pins.h"
 #include "lks_hal.h"
 #include "board.h"
+#include <stddef.h>
 
 static void ssi_delay_half_bit(uint32_t ssi_clock_hz)
 {
