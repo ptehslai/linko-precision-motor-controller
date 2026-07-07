@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "fw_cfg.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -14,11 +15,10 @@ typedef enum {
     COMM_STEP_REPEATABILITY,
 } comm_step_t;
 
-struct runtime_config_t;
 struct joint_axis_t;
 
 void commissioning_init(void);
-void commissioning_bind(struct runtime_config_t *cfg, struct joint_axis_t *joint);
+void commissioning_bind(runtime_config_t *cfg, struct joint_axis_t *joint);
 void commissioning_start_rl_id(void);
 void commissioning_start_enc_align(void);
 void commissioning_start_repeatability(void);
